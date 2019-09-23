@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
+import mongoose from "mongoose";
+import bcrypt from "bcrypt";
 
 const UserSchema = mongoose.Schema({
   username: {
@@ -10,26 +10,23 @@ const UserSchema = mongoose.Schema({
   email: {
     type: String,
     required: true,
-    unique: true,
+    unique: true
   },
   password: {
     type: String,
-    required: true,
+    required: true
   },
-  created_at: {type: Date, default: Date.now},
-  updated_at: {type: Date, default: Date.now}
+  created_at: { type: Date, default: Date.now },
+  updated_at: { type: Date, default: Date.now }
 });
 
+UserSchema.pre("save", async function(next) {
+  this.password = await bcrypt.hash(this.password, 10);
+  next();
+});
 
- UserSchema.pre('save', async function (next)  {
-   const user = this;
-   this.password = await bcrypt.hash(user.password, 10);
-   next();
- });
+UserSchema.methods.isValidatePassword = (password, user) => {
+  return bcrypt.compare(password, user.password);
+};
 
- UserSchema.methods.isValidatePassword =  (password) => {
-   const user = this;
-    return bcrypt.compare(password, user.password);
- };
-
-export default mongoose.model('UserModel', UserSchema);
+export default mongoose.model("UserModel", UserSchema);
