@@ -7,14 +7,14 @@ export default {
         }
     },
     Mutation: {
-            newUser: async(_, data)=> {
-                     return await addUser(data)
-                     },
+        newUser: async(_, data)=> {
+            return await addUser(data)
+        },
 
         login: async(_, data) => {
             return await userLogin(data);
         }
 
-            },
+    },
 
 }
