@@ -1,20 +1,17 @@
-import {addUser, userLogin} from "../services/UserService/UserService";
+import {addUser, userLogin, getUsers} from "../services/UserService/UserService";
 
 export default {
     Query: {
-        getUsers:() => {
-            console.log('ok');
+        getUsers: () => {
+            return getUsers();
+        },
+        login:  (_, data)  => {
+            return  userLogin(data)
         }
     },
     Mutation: {
-        newUser: async(_, data)=> {
-            return await addUser(data)
+        newUser: async (_, data)=> {
+            return await  addUser(data)
         },
-
-        login: async(_, data) => {
-            return await userLogin(data);
-        }
-
     },
-
 }
