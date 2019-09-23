@@ -1,12 +1,13 @@
 import UserModel from '../../../models/User';
 import jwt from 'jsonwebtoken';
 
-export const AuthLogin = async (email, password) => {
-        const User = await UserModel.findOne({email}, async (err, user) =>{
+export const AuthLogin =  (email, password) => {
+    try{
+        return UserModel.findOne({email}, async (err, user) =>{
             if(!user){
                 return ({message: 'User not Found'});
             }
-            console.log(password)
+            console.log(password);
             const validate = await user.isValidatePassword(password);
             if(!validate) {
                 return ({message: 'Wrong Password'});
@@ -14,7 +15,9 @@ export const AuthLogin = async (email, password) => {
             const body = {_id: user._id, username: user.username};
             return  jwt.sign({user: body}, 'top_secret');
         });
-    return User;
+    }catch (e) {
+        return e;
+    }
 };
 
 

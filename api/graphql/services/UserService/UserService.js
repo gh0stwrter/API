@@ -8,7 +8,8 @@ export const addUser = async (data) => {
 };
 
 export const userLogin = async (data) => {
+
     const password = data.password;
     const email = data.email;
-   return  await AuthLogin(email, password);
+    return  await AuthLogin(email, password);
 };

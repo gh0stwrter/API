@@ -13,9 +13,9 @@ export default gql`
 
     type Query {
         getUsers :[User],
+        login(email: String, password: String): Token
     }
     
     type Mutation {
         newUser(email: String, username: String, password: String): User
-        login(email: String, password: String): Token
     }`;

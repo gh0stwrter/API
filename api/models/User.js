@@ -27,9 +27,9 @@ const UserSchema = mongoose.Schema({
    next();
  });
 
- UserSchema.methods.isValidatePassword =  (password) => {
-   const user = this;
-    return bcrypt.compare(password, user.password);
+ UserSchema.methods.isValidatePassword = async (password) => {
+   const User = this;
+   return await bcrypt.compare(password, User.password);
  };
 
 export default mongoose.model('UserModel', UserSchema);
