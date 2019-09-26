@@ -1,4 +1,9 @@
-import {addUser, userLogin, getUsers} from "../services/UserService/UserService";
+import {
+    addUser, 
+    userLogin, 
+    getUsers,
+    deleteAccount
+} from "../services/UserService/UserService";
 
 export default {
     Query: {
@@ -6,12 +11,15 @@ export default {
             return getUsers();
         },
         login:  (_, data)  => {
-            return  userLogin(data)
+            return  userLogin(data);
         }
     },
     Mutation: {
         newUser: async (_, data)=> {
-            return await  addUser(data)
+            return await  addUser(data);
         },
-    },
+        deleteAccount: async (_, data)=> {
+            return await  deleteAccount(data);
+        }
+    }
 }

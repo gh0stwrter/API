@@ -1,6 +1,8 @@
 import UserModel from "../../../models/User";
 import jwt from "jsonwebtoken";
 
+const jwtSalt = "top_secret";
+
 export const AuthLogin = async (email, password) => {
   return await UserModel.findOne({ email }, (err, user) => {
 // User is valide (a remplacer par un midleware)
@@ -11,6 +13,6 @@ export const AuthLogin = async (email, password) => {
 // -----
   .then(user => {
     const body = { _id: user._id, username: user.username };
-    return { token: jwt.sign({ user: body }, "top_secret") };
+    return { token: jwt.sign({ user: body }, jwtSalt) };
   });
 };
