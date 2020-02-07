@@ -1,4 +1,7 @@
 import UserModel from "../../../models/User";
+import SonoreCompositionModel from "../../../models/Compisition/SonoreCompose";
+import WrittenCompositionModel from "../../../models/Compisition/WrittenCompose";
+
 import { AuthLogin } from "./AuthService";
 import {dataUser} from "./utilities";
 
@@ -13,10 +16,8 @@ export const userLogin = data => {
 };
 
 export const getUsers = data => {
-  return UserModel.find()
-  .then(user => {
-    return user;
-  });
+  return UserModel.find();
+  
 };
 
 export const deleteAccount = async (token) => {
@@ -33,3 +34,55 @@ export const deleteAccount = async (token) => {
 }
   return message;
 };
+
+
+
+{/* USER SOCIAL RELATION */}
+export const following = (data) =>{
+      let idFollower = data.follower;
+      let idFollowing = data.following;
+      console.log(idFollower + " : " + idFollowing)
+      let updateFollowing = {following:[{
+        user: idFollowing
+      }]};
+      let updateFollower = {followers:[{
+        user: idFollower
+      }]};
+
+      UserModel.findOneAndUpdate({_id: idFollower},updateFollowing)
+    .then(res => {
+      return res
+    }
+    )
+
+      UserModel.findOneAndUpdate({_id: idFollowing},updateFollower)
+      .then(res => {
+        return res
+   }
+   )
+};
+
+export const unFollow = (data) => {
+
+}
+export const  userCreatePost = (data) => {
+  
+};
+
+export const userDeletePost = (data) => {
+
+}
+
+export const userLike = (data) => {
+
+}
+
+export const userUnlike = (data ) =>{
+
+}
+
+export const userShare = (data) => {
+
+}
+
+{/* USER SOCIAL FINISH */}

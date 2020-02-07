@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, {Schema} from "mongoose";
 import bcrypt from "bcrypt";
 
 const UserSchema = mongoose.Schema({
@@ -16,6 +16,46 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true
   },
+  isComposer: {
+      type: Boolean,
+      default: false,
+  },
+  isOnline: {
+    type: Boolean,
+    default: false,  
+  },
+ 
+  avatar:{
+    type:String,
+},
+role: {
+  type: String,
+  required: true,
+  enum: ['Admin', 'GhostComposer'],
+  default: 'GhostComposer'
+},
+following: [
+    {
+        user:{ 
+            type: Schema.ObjectId, 
+            ref: 'User' 
+        },
+    }
+
+],
+followers: [
+    {
+        user:{ 
+            type: Schema.ObjectId, 
+            ref: 'User' 
+        },
+    }
+],
+
+  isConfirmed: {
+    type:Boolean,
+    default: false,
+  },
   created_at: { type: Date, default: Date.now },
   updated_at: { type: Date, default: Date.now }
 });
@@ -29,4 +69,4 @@ UserSchema.methods.isValidatePassword = (password, user) => {
   return bcrypt.compare(password, user.password);
 };
 
-export default mongoose.model("UserModel", UserSchema);
+export default mongoose.model("User", UserSchema);

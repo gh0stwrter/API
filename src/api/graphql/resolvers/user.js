@@ -2,7 +2,8 @@ import {
     addUser, 
     userLogin, 
     getUsers,
-    deleteAccount
+    deleteAccount,
+    following
 } from "../services/UserService/UserService";
 
 export default {
@@ -20,6 +21,10 @@ export default {
         },
         deleteAccount: async (_, data)=> {
             return await  deleteAccount(data);
+        },
+        followUser: (_, data) =>{
+            
+            return  following(data)
         }
     }
 }

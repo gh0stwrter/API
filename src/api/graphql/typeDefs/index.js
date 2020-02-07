@@ -1,23 +1,25 @@
-import {gql}  from'apollo-server-express';
+import { gql } from 'apollo-server-express';
 
-export default gql`
-    type User {
-        id: String,
-        email:String,
-        password:String,
-        username: String
-    }
-    
-    type Token {
-        token: String!
-    }
+import userSchema from './user';
+
+
+const rootSchema = gql`
+
+    scalar JSON
+    scalar Date
 
     type Query {
-        login(email: String, password: String): Token,
-        getUsers: [User]
+        _: Boolean
     }
-    
     type Mutation {
-        newUser(email: String, username: String, password: String): Token
-        deleteAccount(token: String): String
-    }`;
+        _: Boolean
+    }
+    type Subscription {
+        _: Boolean
+    }
+`;
+
+export default [
+    rootSchema,
+    userSchema,
+];
