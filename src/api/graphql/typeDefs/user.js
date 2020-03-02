@@ -1,6 +1,7 @@
 import {gql}  from'apollo-server-express';
 
 export default gql`
+
     extend type Query {
         login(email: String, password: String): Token,
         getUsers: [User]
@@ -9,23 +10,27 @@ export default gql`
     extend type Mutation {
         newUser(email: String, username: String, password: String): Token
         deleteAccount(token: String): String
-        followUser(following: String, follower: String): User
+        followUser(following: ID, follower: ID): User
     }
+
     type Following {
-        id: ID
+        _id: ID
         user: ID
     }
     type Follower {
-        id: ID
+        _id: ID
         user: ID
     }
+
+
     type User {
-            id: ID
+            _id: ID!
             email:String
             password:String
-            username: String
-            following: [Following]
-            followers: [Follower]
+            username: String!
+            followings: Int! 
+            followers:  Int!
+            role: String
         }
         
         type Token {

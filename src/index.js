@@ -2,15 +2,18 @@ import 'dotenv/config';
 import express from 'express';
 import bodyParser from 'body-parser';
 import {ApolloServer, makeExecutableSchema} from "apollo-server-express";
-import resolvers from './api/graphql/resolvers/user';
+import resolvers from './api/graphql/resolvers/index';
 import typeDefs from './api/graphql/typeDefs/index';
 import mongoose from 'mongoose';
 import authRouter from "./routes/auth";
-
 if (process.env.PROD)
   mongoose.set('debug', true);
 
 const app = express();
+const schema = makeExecutableSchema({
+  typeDefs: typeDefs,
+   resolvers,
+});
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -19,8 +22,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(authRouter)
 const server = new ApolloServer({
-       typeDefs: typeDefs,
-        resolvers,
+  schema,
+  introspection: true
 });
 
 server.applyMiddleware({

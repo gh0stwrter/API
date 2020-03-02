@@ -12,6 +12,7 @@ export default {
             return getUsers();
         },
         login:  (_, data)  => {
+            console.log(data)
             return  userLogin(data);
         }
     },

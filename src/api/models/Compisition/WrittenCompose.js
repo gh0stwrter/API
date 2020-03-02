@@ -9,6 +9,9 @@ const WrittenComposeSchema = mongoose.Schema({
     },
 
     content: [{
+        intro:{
+            type: String
+        },
         couplet:{
             type: String
         },

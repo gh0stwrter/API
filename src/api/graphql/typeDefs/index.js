@@ -1,12 +1,13 @@
 import { gql } from 'apollo-server-express';
 
 import userSchema from './user';
-
-
+import writtenCompSchema from "./writtenCompostion"
+import sonoreCompSchema from "./sonoreComposition";
 const rootSchema = gql`
 
     scalar JSON
     scalar Date
+    scalar Upload
 
     type Query {
         _: Boolean
@@ -22,4 +23,6 @@ const rootSchema = gql`
 export default [
     rootSchema,
     userSchema,
+    writtenCompSchema,
+    sonoreCompSchema,
 ];
