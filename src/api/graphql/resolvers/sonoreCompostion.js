@@ -8,5 +8,6 @@ export default {
         singleUpload: (_, data) =>{
             console.log(data)
         }
+        
     }
 }

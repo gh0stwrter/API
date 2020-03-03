@@ -6,6 +6,7 @@ import resolvers from './api/graphql/resolvers/index';
 import typeDefs from './api/graphql/typeDefs/index';
 import mongoose from 'mongoose';
 import authRouter from "./routes/auth";
+import path from "path"
 if (process.env.PROD)
   mongoose.set('debug', true);
 
@@ -21,6 +22,7 @@ db.on('error', console.error.bind(console, 'connection error:'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(authRouter)
+app.use("/image", express.static(path.join(__dirname, "./api/graphql/services/CompositionService/compositions")))
 const server = new ApolloServer({
   schema,
   introspection: true

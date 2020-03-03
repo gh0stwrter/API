@@ -8,17 +8,7 @@ const WrittenComposeSchema = mongoose.Schema({
         required: true,
     },
 
-    content: [{
-        intro:{
-            type: String
-        },
-        couplet:{
-            type: String
-        },
-        refrain:{
-            type: String
-        },
-    }],
+    file: String,
    
     composer: {
         type: Schema.Types.ObjectId,

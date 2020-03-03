@@ -15,11 +15,13 @@
     "body-parser": "*",
     "dotenv": "^8.2.0",
     "express": "*",
+    "file-system": "^2.2.2",
     "graphql-resolvers": "^0.3.3",
     "graphql-upload": "^9.0.0",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.5.4",
-    "mongoose": "^5.9.2"
+    "mongoose": "^5.9.2",
+    "path": "^0.12.7"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",

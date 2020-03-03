@@ -7,8 +7,8 @@ export default {
         }
     },
     Mutation:{
-        addWrittenComp:  (_, { writtenInput }) => {
-            return createWrittenComposition(writtenInput)
+        addWrittenComp:  (_,data) => {
+            return createWrittenComposition(data)
             },
             
     },
