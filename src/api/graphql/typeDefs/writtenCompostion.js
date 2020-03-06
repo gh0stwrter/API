@@ -5,12 +5,13 @@ export default gql`
         getMyWrittenComposition(composer: ID!): [WrittenComposition]
     }
     extend type Mutation {
-        addWrittenComp(file: Upload!, writtenInput: WrittenCompInput): File!
+        addWrittenComp(file: [Upload!], writtenInput: WrittenCompInput): File!
     }
 
     type WrittenComposition {
         id: ID
         title: String
+        file: String,
         composer: ID!
         category: ID!
         price: Float!

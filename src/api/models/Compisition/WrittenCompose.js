@@ -9,7 +9,7 @@ const WrittenComposeSchema = mongoose.Schema({
     },
 
     file: String,
-   
+    image: String,
     composer: {
         type: Schema.Types.ObjectId,
         required: true,

@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
 import bodyParser from 'body-parser';
-import {ApolloServer, makeExecutableSchema} from "apollo-server-express";
+import {ApolloServer, makeExecutableSchema, GraphQLUpload} from "apollo-server-express";
 import resolvers from './api/graphql/resolvers/index';
 import typeDefs from './api/graphql/typeDefs/index';
 import mongoose from 'mongoose';
@@ -14,6 +14,8 @@ const app = express();
 const schema = makeExecutableSchema({
   typeDefs: typeDefs,
    resolvers,
+   maxFileSize: 10000000, 
+  maxFiles: 10
 });
 
 const db = mongoose.connection;
@@ -22,10 +24,11 @@ db.on('error', console.error.bind(console, 'connection error:'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(authRouter)
-app.use("/image", express.static(path.join(__dirname, "./api/graphql/services/CompositionService/compositions")))
+app.use("/upload", express.static(path.join(__dirname, "./api/graphql/services/CompositionService/compositions")))
 const server = new ApolloServer({
   schema,
-  introspection: true
+  introspection: true,
+  
 });
 
 server.applyMiddleware({

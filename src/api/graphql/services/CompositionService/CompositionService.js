@@ -2,63 +2,89 @@ import WrittenCompostionModel from "../../../models/Compisition/WrittenCompose";
 import SonoreCompositionModel from "../../../models/Compisition/SonoreCompose";
 import UserModel from "../../../models/User";
 import User from "../../../models/User";
-import { createWriteStream, createReadStream } from "fs";
+import {uploadToDirectory} from "../_utils/fileManagement";
 import path from "path";
 
-export const addSonore = async data => {
-    const compostion = new SonoreCompositionModel(data);
-    await compostion.save();
-  };
 
+export const createSonore = async ( { file, writtenInput:{ title, userId, price, isPublish, category}}) => {
+  console.log()
+  const  {createReadStream, filename, mimetype, encoding } = await file;  
+  const typeFile = path.extname(filename).toLowerCase() === ".mp3" ? "sonoreComp" : null 
+  const stream = createReadStream()
+  
+  const existingUser = await User.findById(serId);
+       if(existingUser && title && file && userId && price && isPublish && category){
+        await  SonoreCompositionModel.create({
+          composer: userId,
+           title, 
+           price, 
+           isPublish, 
+           file: filename,
+        }).then(async (res) =>  {
+          const dir = `${__dirname}/compositions/${userId}/${typeFile}/${res._id}`;
+          console.log(res._id)
+          await new Promise((resolve, reject) => {
+            if(!existsSync(dir)) shell.mkdir('-p',dir)
+               if(existsSync(dir)) stream.pipe(createWriteStream(path.join(__dirname, `/compositions/${userId}/${typeFile}/${res._id}` ,filename)))
+                  .on("close", resolve())
+                }
+                 )  
+        })
 
-export const createWrittenComposition = async ( { file, writtenInput:{title, userId, price, isPublish, category}}) => {
-  const files = [];
-if(file)console.log(file)
-  return file.then(file =>{
-    const {createReadStream, filename, mimetype } = file;
-    const fileStream = createReadStream()
-
-        fileStream.pipe(createWriteStream(`./composition/${filename}`))
-
+      
         return file;
-  })
-
-  // if(file){
-  //      await new Promise(res => {
-  //         createReadStream()
-  //         .pipe(createWriteStream(path.join("./compositions", file.path)))
-  //       })
-  //       .on('close', res)
-  //         files.push(file.path[0])
-  //     }    
-
-
-// try {
-//       const existingUser = await User.findById(userId);
-//         existingUser && title && content && userId && price && isPublish && category ? 
-//        await  WrittenCompostionModel.create({
-//           composer: userId,
-//            title, 
-//            price, 
-//            isPublish, 
-//            category,
-//            file: file.path,
-
-//         }).then(res => {
-//           console.log( res)
-//         }) 
-//         : "Il manque certaines informations veuillez verifier."
-// }catch(err){
-//   throw err
-// }
-//       return true;
+}
 
 }
+
+const insertComposition = async (filename,imageName,{ title, userId, price, isPublish, category}) =>{
+   return await WrittenCompostionModel.create({
+      composer: userId,
+       title, 
+       price, 
+       isPublish,
+       category, 
+       file: filename,
+       image: imageName
+    })
+}
+
+export const createWrittenComposition = async ( { file, writtenInput}) => {
+  const existingUser = await User.findById(writtenInput.userId);
+  
+  await Promise.all(file[0]).then(async  res =>{
+    if(existingUser){
+      const files = {
+        fileOne: res[0],
+        fileTwo: res[1]
+       }
+       const {fileOne, fileTwo} = files;
+
+       const composition =  await insertComposition(fileOne.filename, fileTwo.filename, writtenInput)
+       console.log(composition)
+       res.map(item =>{
+      const typeFile =  path.extname(item.filename).toLowerCase() === ".pdf" || ".jpeg" || ".png" || ".jpg"  ? "writtenComp" : 
+      path.extname(item.filename).toLowerCase() === ".mp3" || ".wav" || ".jpeg" || ".png" || ".jpg" ? "sonoreComp"  :null
+      uploadToDirectory(item, writtenInput.userId ,typeFile, composition._id)
+      return item
+    })
+  }
+     
+  })
+  
+ 
+}
+  
+               
+  
+  
+  
+  
 
 {/* USER COMPOSITION RELATION */}
 
 export const getAllSonorCompisitionByUserId = (data) => {
-    const res =   SonoreCompositionModel.find(data)
+    const res = SonoreCompositionModel.find(data)
       .populate('composer');
 
       console.log(res)
@@ -66,9 +92,11 @@ export const getAllSonorCompisitionByUserId = (data) => {
 
 
 export const getAllWrittenCompisitionByUserId = async  (data) => {
-   return WrittenCompostionModel.find(data)
-  .populate('user')
-  
+    const listCompo = await WrittenCompostionModel.find(data)
+        listCompo.map((item) =>{
+          const dir = `${__dirname}/compositions/${item.composer}/writtenComp/${item._id}/${item.file}`;
+          //if(existsSync(dir)) 
+        })
 };
 
 {/* COMPOSITION RELATION FINISH */}
