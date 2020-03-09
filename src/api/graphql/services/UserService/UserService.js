@@ -1,6 +1,5 @@
 import UserModel from "../../../models/User";
-import SonoreCompositionModel from "../../../models/Compisition/SonoreCompose";
-import WrittenCompositionModel from "../../../models/Compisition/WrittenCompose";
+import WrittenCompositionModel from "../../../models/Compisition/Composition";
 
 import { AuthLogin } from "./AuthService";
 import {dataUser} from "./utilities";

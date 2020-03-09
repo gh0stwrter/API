@@ -12,7 +12,7 @@ export const AuthLogin = async (email, password) => {
   })
 // -----
   .then(user => {
-    const body = { _id: user._id, username: user.username };
-    return { token: jwt.sign({ user: body }, jwtSalt) };
+    const body = { _id: user._id, username: user.username};
+    return { token: jwt.sign({ user: body }, jwtSalt, {expiresIn: "12h"}) };
   });
 };

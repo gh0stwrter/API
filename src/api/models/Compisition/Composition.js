@@ -1,15 +1,21 @@
 import mongoose, {Schema} from "mongoose";
 
 
-const WrittenComposeSchema = mongoose.Schema({
+const CompositionSchema = mongoose.Schema({
     
     title: {
         type: String,
         required: true,
     },
+    compo_type: {
+        type: String,
+        required: true,
+        enum: ['written', 'sonore'],
+      },
 
     file: String,
     image: String,
+    
     composer: {
         type: Schema.Types.ObjectId,
         required: true,
@@ -39,5 +45,5 @@ const WrittenComposeSchema = mongoose.Schema({
 
 });
 
-export default mongoose.model("WrittenCompose", WrittenComposeSchema);
+export default mongoose.model("Composition", CompositionSchema);
 

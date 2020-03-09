@@ -3,7 +3,7 @@ import path from "path";
 import shell from "shelljs";
 
 export const uploadToDirectory = async (file, userId,typeFile, idComposition) =>{
-  
+  console.log(file)
     await new Promise((resolve, reject) => {
         const dir = `${__dirname}/../compositions/${userId}/${typeFile}/${idComposition}`;
 
