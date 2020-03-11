@@ -1,16 +1,11 @@
 import CompositionModel from "../../../models/Compisition/Composition";
 import User from "../../../models/User";
-import {uploadToDirectory} from "../_utils/fileManagement";
+import {uploadToDirectory, streamMusicFromCloud} from "../_utils/fileManagement";
 import path from "path";
 import { createWriteStream, createReadStream ,existsSync} from "fs";
 
-
-
-
-
-
 const insertComposition = async (filename,imageName,{ title, userId, price, compo_type, isPublish, category}) =>{
-  
+
   return await CompositionModel.create({
       composer: userId,
        title, 
@@ -24,8 +19,8 @@ const insertComposition = async (filename,imageName,{ title, userId, price, comp
 }
 
 export const createWrittenComposition = async ( { file, writtenInput}) => {
+  
   const existingUser = await User.findById(writtenInput.userId);
-  console.log(existingUser)
   await Promise.all(file[0]).then(async  res =>{
     if(existingUser){
       const files = {
@@ -33,11 +28,8 @@ export const createWrittenComposition = async ( { file, writtenInput}) => {
         fileTwo: res[1]
        }
        const {fileOne, fileTwo} = files;
-        console.log(files)
        const composition =  await insertComposition(fileOne.filename, fileTwo.filename, writtenInput)
-       console.log(composition)
        res.map(item =>{
-         console.log(item)
       const typeFile =  path.extname(item.filename).toLowerCase() ===  ".mp3" || ".wav" || ".pdf" || ".jpeg" || ".png" || ".jpg"  ? "compositions" : null 
       uploadToDirectory(item, writtenInput.userId ,typeFile, composition._id)
       return item
@@ -48,12 +40,6 @@ export const createWrittenComposition = async ( { file, writtenInput}) => {
   
  
 }
-  
-               
-  
-  
-  
-  
 
 {/* USER COMPOSITION RELATION */}
 
@@ -66,22 +52,13 @@ export const getAllWrittenCompisitionByUserId = async  (data) => {
     const listCompo = await CompositionModel.find(data)
     console.log(listCompo)
        return listCompo.map((item) =>{
-          const dir = `${__dirname}/../compositions/${item.composer}/compositions/${item._id}/${item.file}`;
           if(existsSync(dir)) return item;
         })
 };
 
 
 export const streamFile = async ({composer, _id, file}) =>{
-const dir = `compositions/${composer}/compositions/${_id}/${file}`;
-console.log(existsSync("/compositions"))
-const stream = createReadStream(dir);
-const rStream = stream.pipe(createWriteStream(file))
-//console.log(stream)
-return rStream.on("open",  () =>{
-  return rStream.path
-
-})
+      return streamMusicFromCloud(file)
   
 }
 {/* COMPOSITION RELATION FINISH */}

@@ -4,7 +4,7 @@ export default gql`
     extend type Query {
         getMyWrittenComposition(composer: ID!): [WrittenComposition]
         getCompositions: [WrittenComposition]
-        streamMusic(composer: ID!, file: String!, _id: ID!): String!
+        streamMusic(composer: ID, file: String!, _id: ID): String!
     }
     extend type Mutation {
         addWrittenComp(file: [Upload!], writtenInput: WrittenCompInput): File
