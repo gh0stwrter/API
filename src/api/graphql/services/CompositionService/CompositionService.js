@@ -23,7 +23,7 @@ export const createWrittenComposition = async ( { file, writtenInput}) => {
   await Promise.all(file).then(async  res =>{
     console.log(res[0])
     if(existingUser){
-       const composition =  await insertComposition(res[0].filename, res[0].filename, writtenInput)
+       const composition =  await insertComposition(res[0].filename, res[1].filename, writtenInput)
        res.map(item =>{
          console.log(item)
       const typeFile =  path.extname(item.filename).toLowerCase() ===  ".mp3" || ".wav" || ".pdf" || ".jpeg" || ".png" || ".jpg"  ? "compositions" : null 
