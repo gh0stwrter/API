@@ -3,8 +3,9 @@ import {gql}  from'apollo-server-express';
 export default gql`
 
     extend type Query {
-        login(email: String, password: String): Token,
+        login(email: String, password: String): Token
         getUsers: [User]
+        me(_id: ID!):User!
     }
 
     extend type Mutation {

@@ -3,6 +3,8 @@ import { gql } from 'apollo-server-express';
 import userSchema from './user';
 import writtenCompSchema from "./writtenCompostion"
 import sonoreCompSchema from "./sonoreComposition";
+import categories from "./categories";
+
 const rootSchema = gql`
 
     scalar JSON
@@ -23,6 +25,7 @@ const rootSchema = gql`
 export default [
     rootSchema,
     userSchema,
+    categories,
     writtenCompSchema,
     sonoreCompSchema,
 ];

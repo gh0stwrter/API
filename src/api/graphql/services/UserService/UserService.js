@@ -18,7 +18,9 @@ export const getUsers = data => {
   return UserModel.find();
   
 };
-
+export const  currentUser = (data) =>{
+  console.log(data)
+}
 export const deleteAccount = async (token) => {
   const id = dataUser(token)._id;
   let message = "Une erreur est survenu";

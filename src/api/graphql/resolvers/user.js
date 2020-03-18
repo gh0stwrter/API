@@ -14,6 +14,9 @@ export default {
         login:  (_, data)  => {
             console.log(data)
             return  userLogin(data);
+        },
+        me: (_,data) =>{
+
         }
     },
     Mutation: {

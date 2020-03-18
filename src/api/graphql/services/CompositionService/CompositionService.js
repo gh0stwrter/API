@@ -19,23 +19,18 @@ const insertComposition = async (filename,imageName,{ title, userId, price, comp
 }
 
 export const createWrittenComposition = async ( { file, writtenInput}) => {
-  
   const existingUser = await User.findById(writtenInput.userId);
-  await Promise.all(file[0]).then(async  res =>{
+  await Promise.all(file).then(async  res =>{
+    console.log(res[0])
     if(existingUser){
-      const files = {
-        fileOne: res[0],
-        fileTwo: res[1]
-       }
-       const {fileOne, fileTwo} = files;
-       const composition =  await insertComposition(fileOne.filename, fileTwo.filename, writtenInput)
+       const composition =  await insertComposition(res[0].filename, res[0].filename, writtenInput)
        res.map(item =>{
+         console.log(item)
       const typeFile =  path.extname(item.filename).toLowerCase() ===  ".mp3" || ".wav" || ".pdf" || ".jpeg" || ".png" || ".jpg"  ? "compositions" : null 
       uploadToDirectory(item, writtenInput.userId ,typeFile, composition._id)
       return item
     })
-  }
-     
+  }  
   })
   
  

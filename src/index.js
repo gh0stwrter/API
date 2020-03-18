@@ -24,7 +24,6 @@ db.on('error', console.error.bind(console, 'connection error:'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(authRouter)
-app.use("/upload", express.static(path.join(__dirname, "./api/graphql/services/CompositionService/compositions")))
 const server = new ApolloServer({
   schema,
   introspection: true,
