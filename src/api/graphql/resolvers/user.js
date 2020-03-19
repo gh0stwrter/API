@@ -11,10 +11,7 @@ export default {
         getUsers: () => {
             return getUsers();
         },
-        login:  (_, data)  => {
-            console.log(data)
-            return  userLogin(data);
-        },
+        
         me: (_,data) =>{
 
         }
@@ -22,6 +19,10 @@ export default {
     Mutation: {
         newUser: async (_, data)=> {
             return await  addUser(data);
+        },
+        login:  (_, data)  => {
+            console.log(data)
+            return  userLogin(data);
         },
         deleteAccount: async (_, data)=> {
             return await  deleteAccount(data);
