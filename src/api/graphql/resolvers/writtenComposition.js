@@ -2,8 +2,8 @@ import {createWrittenComposition, streamFile,getAllCompisition,getAllWrittenComp
  
 export default {
     Query: {
-        getCompositions: (_,data) =>{
-            return getAllCompisition();
+        getCompositions: async (_,data) =>{
+            return await getAllCompisition();
         },
         getMyWrittenComposition: (_,  composer )=>{
            return getAllWrittenCompisitionByUserId(composer)

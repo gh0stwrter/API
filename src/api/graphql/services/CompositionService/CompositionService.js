@@ -39,14 +39,32 @@ export const createWrittenComposition = async ( { file, writtenInput}) => {
 {/* USER COMPOSITION RELATION */}
 
 export const getAllCompisition = async () => {
- return await CompositionModel.find()
+  return await CompositionModel.find().populate("composer").then((user) => {
+    const dataMaped =  user.map((item)=>{
+      const {composer: {username, email, isConfirmed},_id,title,price, category, file, image, compo_type, views, isPublish} = item;
+     return {
+             username,
+            _id,
+            title,
+            compo_type,
+            category,
+            file, 
+            price,
+            isPublish,
+            image,
+        }
+      })
+      console.log(dataMaped)
+     return dataMaped;
+  })    
 };
 
 
-export const getAllWrittenCompisitionByUserId = async  (data) => {
-    const listCompo = await CompositionModel.find(data)
-    console.log(listCompo)
-       return listCompo.map((item) =>{
+export const getAllWrittenCompisitionByUserId = async  () => {
+        const listCompo = await CompositionModel.find()
+        console.log(listCompo)
+        
+        return listCompo.map((item) =>{
           if(existsSync(dir)) return item;
         })
 };

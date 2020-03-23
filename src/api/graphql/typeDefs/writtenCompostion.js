@@ -9,19 +9,21 @@ export default gql`
     extend type Mutation {
         addWrittenComp(file: [Upload!], writtenInput: WrittenCompInput): File
     }
-
+  
+   
     type WrittenComposition {
-        id: ID
-        compo_type: String
+        username: String
+        _id: ID!
         title: String
+        compo_type: String
+        category: ID
         file: String,
-        composer: ID!
-        category: ID!
-        price: Float!
-        isPublish: Boolean!
-        views: Int
+        price: Float
+        isPublish: Boolean
         image: String
+        
     }
+
 
     type File {
     filename: String!
