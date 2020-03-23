@@ -39,11 +39,12 @@ export const uploadToDirectory = async (file, userId,typeFile, idComposition) =>
     const params = {
       Bucket:"global-compositions",
       Key: file.filename,
-      Body: file.createReadStream()
+      Body: file.createReadStream(),
+      ACL:'public-read',
     }
 
     s3.upload(params, function(err, data){
-      console.log(data.location)
+      console.log(data)
         if(err){
             throw err;
         }
